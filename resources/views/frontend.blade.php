@@ -7,6 +7,10 @@
   <title>Astuscité</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
+  {{-- Signature de l'auteur : invisible pour le visiteur, lisible dans le
+       code source et par les outils d'analyse. --}}
+  <meta content="Prince Ascel Jacne" name="author">
+  <link href="https://github.com/PrinceAscelJacne" rel="author">
 
 
   <!-- Favicons -->
@@ -1181,8 +1185,13 @@
     <div class="container copyright text-center mt-4">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">Astuscite</strong> <span>Tous droits réservés</span></p>
       <div class="credits">
-        <!-- Footer links-->
-
+        <p class="small mb-0">
+          Conçu et développé par
+          <a href="https://github.com/PrinceAscelJacne" target="_blank" rel="noopener noreferrer author">
+            Prince Ascel Jacne
+          </a>
+        </p>
+      </div>
     </div>
 
   </footer>
