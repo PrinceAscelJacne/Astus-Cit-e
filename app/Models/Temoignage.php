@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Support\ConsigneLesActivites;
 
 class Temoignage extends Model
 {
-    use HasFactory;
+    use HasFactory, ConsigneLesActivites;
+
+    /** Attribut servant de libellé dans le journal d'activité. */
+    protected $champLibelle = 'nom';
 
     public const EN_ATTENTE = 'en_attente';
     public const PUBLIE = 'publie';

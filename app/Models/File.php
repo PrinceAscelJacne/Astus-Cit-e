@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Support\ConsigneLesActivites;
 
 class File extends Model
 {
-    use HasFactory;
+    use HasFactory, ConsigneLesActivites;
+
+    /** Attribut servant de libellé dans le journal d'activité. */
+    protected $champLibelle = 'filename';
 
     /**
      * La colonne s'appelle « filename » : « name » n'existe pas sur cette table.
