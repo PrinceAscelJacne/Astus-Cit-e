@@ -55,8 +55,14 @@
                                                 {{$project->description}}
                                             </p>
 
+                                            {{-- Accès à l'espace de travail : livrables, échanges,
+                                                 tâches, équipe et journal du projet. --}}
+                                            <a href="{{ route('projet.fiche', $project->id) }}" class="btn btn-primary mb-2">
+                                                Ouvrir le projet
+                                            </a>
+
                                             @if (auth()->user()->id == $project->user_id || auth()->user()->role_id == 3 )
-                                            <a href="index.html" onclick="event.preventDefault(); document.getElementById('archiverprojet{{$project->id}}').submit();" class="btn btn-outline-primary">Archiver le projet</a>
+                                            <a href="#" onclick="event.preventDefault(); document.getElementById('archiverprojet{{$project->id}}').submit();" class="btn btn-outline-primary mb-2">Archiver le projet</a>
                                             <form id="archiverprojet{{$project->id}}" action="{{ route('archiverproject', ['id' => $project->id]) }}" method="POST" style="display: none;">
                                                 @csrf
                                             </form>

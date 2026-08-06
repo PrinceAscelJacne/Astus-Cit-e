@@ -4,6 +4,7 @@ use App\Http\Controllers\Authcontroller;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProjetController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\EspaceProjetController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\TablesController;
 use App\Http\Controllers\TemoignageController;
@@ -64,6 +65,24 @@ Route::middleware([
     Route::match(['put', 'patch', 'post'], '/dashboarde/updateproject/{id}', [ProjetController::class, 'update'])->name('updateproject');
     Route::delete('/dashboarde/deleteproject/{id}', [ProjetController::class, 'delete'])->name('deleteproject');
     Route::match(['put', 'patch', 'post'], '/dashboarde/archiverproject/{id}', [ProjetController::class, 'archiverproject'])->name('archiverproject');
+
+    /*
+     * Espace de travail d'un projet : livrables, échanges, tâches, équipe et
+     * journal. L'accès est vérifié dans le contrôleur — être membre de
+     * l'équipe suffit, quel que soit le rôle.
+     */
+    Route::prefix('/dashboarde/projet/{projet}')->group(function () {
+        Route::get('/', [EspaceProjetController::class, 'fiche'])->name('projet.fiche');
+        Route::post('/message', [EspaceProjetController::class, 'ecrire'])->name('projet.message');
+        Route::post('/tache', [EspaceProjetController::class, 'ajouterTache'])->name('projet.tache');
+        Route::post('/tache/{tache}/bascule', [EspaceProjetController::class, 'basculerTache'])->name('projet.tache.bascule');
+        Route::post('/membre', [EspaceProjetController::class, 'ajouterMembre'])->name('projet.membre');
+        Route::delete('/membre/{membre}', [EspaceProjetController::class, 'retirerMembre'])->name('projet.membre.retirer');
+        Route::post('/avancement', [EspaceProjetController::class, 'changerAvancement'])->name('projet.avancement');
+        Route::post('/archiver', [EspaceProjetController::class, 'archiver'])->name('projet.archiver');
+        Route::post('/desarchiver', [EspaceProjetController::class, 'desarchiver'])->name('projet.desarchiver');
+        Route::post('/fichier/{fichier}/visibilite', [EspaceProjetController::class, 'changerVisibilite'])->name('projet.fichier.visibilite');
+    });
 
     // Création de projet : chefs de département et Boss uniquement.
     Route::middleware('role:' . Role::CHEF_DEPARTEMENT . ',' . Role::BOSS)->group(function () {
