@@ -102,7 +102,11 @@
                                                 <a class="dropdown-item" href=""><i class="bx bx-edit-alt me-1"></i> Edit</a>
                                             @endif
 
-                                            <a class="dropdown-item" href="" id="deleteone" onclick="event.preventDefault(); $('#confirmationModal').modal('show');">
+                                            {{-- L'identifiant voyage jusqu'à la modale, qui est unique
+                                                 et partagée par toutes les lignes. --}}
+                                            <a class="dropdown-item declencheur-suppression" href="#"
+                                               data-fichier-id="{{ $file->id }}"
+                                               data-fichier-nom="{{ $file->filename }}">
                                                 <i class="bx bx-trash me-1"></i> Supprimer
                                             </a>
 
@@ -164,11 +168,16 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Êtes-vous sûr de vouloir supprimer ce fichier ?
+                Êtes-vous sûr de vouloir supprimer le fichier
+                <strong id="nom-fichier-a-supprimer"></strong> ?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <form id="form-delete-id{{$file->id}}" action="{{ route('delete', ['table' => 'files','id' => $file->id]) }}" method="POST" >
+                {{-- L'action est fixée au clic. Elle pointait auparavant vers $file,
+                     variable fuitée par la boucle : la modale supprimait toujours le
+                     dernier fichier de la liste, et la page tombait en erreur dès que
+                     la table était vide. --}}
+                <form id="formulaire-suppression-fichier" action="" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Supprimer</button>
@@ -180,6 +189,22 @@
 @endsection
 @section('scripts')
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var modale = document.getElementById('confirmationModal');
+        var formulaire = document.getElementById('formulaire-suppression-fichier');
+        var libelle = document.getElementById('nom-fichier-a-supprimer');
+        var gabarit = @json(route('delete', ['table' => 'files', 'id' => '__ID__']));
+
+        document.querySelectorAll('.declencheur-suppression').forEach(function (lien) {
+            lien.addEventListener('click', function (e) {
+                e.preventDefault();
+                formulaire.setAttribute('action', gabarit.replace('__ID__', this.dataset.fichierId));
+                libelle.textContent = this.dataset.fichierNom || '';
+                bootstrap.Modal.getOrCreateInstance(modale).show();
+            });
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('fab').addEventListener('click', function() {
             document.getElementById('fileForm').style.display = 'block';

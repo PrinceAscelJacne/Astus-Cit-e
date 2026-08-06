@@ -54,7 +54,11 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="{{route('modifyproject', ['id' => $project->id])}}"><i class="bx bx-edit-alt me-1"></i> Modifier</a>
-                                        <a class="dropdown-item" href="" onclick="event.preventDefault(); $('#confirmationModal').modal('show');">
+                                        {{-- L'identifiant du projet voyage jusqu'à la modale : elle est
+                                             unique et partagée par toutes les lignes. --}}
+                                        <a class="dropdown-item declencheur-suppression" href="#"
+                                           data-projet-id="{{ $project->id }}"
+                                           data-projet-nom="{{ $project->name }}">
                                             <i class="bx bx-trash me-1"></i> Supprimer
                                         </a>
 
@@ -79,11 +83,17 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Êtes-vous sûr de vouloir supprimer ce Projet ?
+                Êtes-vous sûr de vouloir supprimer le projet
+                <strong id="nom-projet-a-supprimer"></strong> ?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <form id="form-delete-id{{$project->id}}" action="{{ route('delete', ['table' => 'projects','id' => $project->id]) }}" method="POST" >
+                {{-- L'action est fixée au moment du clic. Elle pointait auparavant
+                     vers $project, variable fuitée par la boucle : la modale
+                     supprimait donc toujours le dernier projet de la liste, quelle
+                     que soit la ligne choisie — et la page tombait en erreur dès que
+                     la table était vide. --}}
+                <form id="formulaire-suppression-projet" action="" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Supprimer</button>
@@ -92,4 +102,24 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var modale = document.getElementById('confirmationModal');
+    var formulaire = document.getElementById('formulaire-suppression-projet');
+    var libelle = document.getElementById('nom-projet-a-supprimer');
+    var gabarit = @json(route('delete', ['table' => 'projects', 'id' => '__ID__']));
+
+    document.querySelectorAll('.declencheur-suppression').forEach(function (lien) {
+      lien.addEventListener('click', function (e) {
+        e.preventDefault();
+        formulaire.setAttribute('action', gabarit.replace('__ID__', this.dataset.projetId));
+        libelle.textContent = this.dataset.projetNom || '';
+        bootstrap.Modal.getOrCreateInstance(modale).show();
+      });
+    });
+  });
+</script>
 @endsection
