@@ -193,6 +193,11 @@ class AutorisationTest extends TestCase
 
         $this->assertSame(Role::EMPLOYE, (int) $cree->role_id);
         $this->assertSame($sien->id, $cree->department_id);
+
+        // Le compte est attesté par son créateur : sans email_verified_at, il
+        // deviendrait inaccessible dès l'activation de la vérification
+        // d'e-mail, sans aucun moyen de la franchir.
+        $this->assertNotNull($cree->email_verified_at);
     }
 
     public function test_le_mot_de_passe_n_est_plus_accepte_depuis_le_formulaire(): void

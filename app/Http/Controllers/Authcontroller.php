@@ -52,7 +52,7 @@ class Authcontroller extends Controller
         // était seulement « readonly », donc librement modifiable côté client.
         $motDePasse = Str::password(12, true, true, false);
 
-        User::create([
+        $utilisateur = User::create([
             'name' => trim($validatedData['name']),
             'surname' => trim($validatedData['firstname']),
             'phone' => trim($validatedData['phone']),
@@ -61,6 +61,13 @@ class Authcontroller extends Controller
             'department_id' => $departmentId,
             'role_id' => (int) $validatedData['role'],
         ]);
+
+        // Le compte est créé par un responsable, qui en atteste et transmet
+        // lui-même le mot de passe : il n'y a pas d'auto-inscription à
+        // confirmer. Sans cette ligne, email_verified_at restait nul et tous
+        // les comptes se seraient retrouvés bloqués le jour où la vérification
+        // d'e-mail serait activée, sans moyen de la passer.
+        $utilisateur->forceFill(['email_verified_at' => now()])->save();
 
         return redirect()->back()
             ->with('success', 'Utilisateur ' . $validatedData['name'] . ' ajouté avec succès !')

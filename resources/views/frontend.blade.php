@@ -161,8 +161,36 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Icône de réseau social dont l'adresse n'est pas encore renseignée :
+           visible mais volontairement inerte, pour ne plus recharger la page. */
+        .social-inactif {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            opacity: .35;
+            cursor: default;
+        }
 
+        /* Accès à l'espace d'administration depuis le pied de page. */
+        .lien-administration {
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            transition: color .3s, transform .3s;
+        }
 
+        .lien-administration:hover {
+            color: #ff511a;
+            transform: translateX(3px);
+        }
+
+        .lien-administration i {
+            transition: transform .3s;
+        }
+
+        .lien-administration:hover i {
+            transform: scale(1.15);
+        }
     </style>
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="frontend/assets/css/main.css" rel="stylesheet">
@@ -183,7 +211,7 @@
     <div class="branding d-flex align-items-center">
 
       <div class="container position-relative d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center me-auto">
+        <a href="{{ url('/') }}" class="logo d-flex align-items-center me-auto">
           <!-- Uncomment the line below if you also wish to use an image logo -->
           <!-- <img src="assets/img/logo.png" alt="">
           <h1 class="sitename">Astuscite</h1>-->
@@ -395,7 +423,7 @@
               <div class="icon">
                 <i class="fas fa-paint-brush"></i>
               </div>
-              <a href="#" class="stretched-link">
+              <a href="#appointment" class="stretched-link">
                 <h3>Affiches et Flyers</h3>
               </a>
               <p>Des conceptions attrayantes pour promouvoir vos événements, produits ou services.</p>
@@ -407,7 +435,7 @@
               <div class="icon">
                 <i class="fas fa-pencil-ruler"></i>
               </div>
-              <a href="#" class="stretched-link">
+              <a href="#appointment" class="stretched-link">
                 <h3>Design Graphique</h3>
               </a>
               <p>Création de logos, identités visuelles, et supports marketing.</p>
@@ -419,7 +447,7 @@
               <div class="icon">
                 <i class="fas fa-book"></i>
               </div>
-              <a href="#" class="stretched-link">
+              <a href="#appointment" class="stretched-link">
                 <h3>Livres et Brochures</h3>
               </a>
               <p>De la conception à l'impression, nous créons des livres et brochures qui marquent les esprits.</p>
@@ -431,11 +459,11 @@
               <div class="icon">
                 <i class="fas fa-ad"></i>
               </div>
-              <a href="#" class="stretched-link">
+              <a href="#appointment" class="stretched-link">
                 <h3>Supports Marketing</h3>
               </a>
               <p>Conception de brochures, catalogues, et autres supports de communication visuelle.</p>
-              <a href="#" class="stretched-link"></a>
+              <a href="#appointment" class="stretched-link"></a>
             </div>
           </div><!-- End Service Item -->
 
@@ -444,11 +472,11 @@
               <div class="icon">
                 <i class="fas fa-palette"></i>
               </div>
-              <a href="#" class="stretched-link">
+              <a href="#appointment" class="stretched-link">
                 <h3>Illustrations Personnalisées</h3>
               </a>
               <p>Création d'illustrations uniques pour vos projets spéciaux.</p>
-              <a href="#" class="stretched-link"></a>
+              <a href="#appointment" class="stretched-link"></a>
             </div>
           </div><!-- End Service Item -->
 
@@ -457,11 +485,11 @@
               <div class="icon">
                 <i class="fas fa-id-badge"></i>
               </div>
-              <a href="#" class="stretched-link">
+              <a href="#appointment" class="stretched-link">
                 <h3>Identité Visuelle</h3>
               </a>
               <p>Développement de votre charte graphique complète pour assurer une cohérence visuelle.</p>
-              <a href="#" class="stretched-link"></a>
+              <a href="#appointment" class="stretched-link"></a>
             </div>
           </div><!-- End Service Item -->
 
@@ -667,12 +695,7 @@
                 <h4>Ascel DJIBODE</h4>
                 <span> Développeur Web et Mobile</span>
                 <p>Passionnée par la conception visuelle et la narration à travers le design.</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
+                <x-reseaux-sociaux class="social" />
               </div>
             </div>
           </div><!-- End Team Member -->
@@ -684,12 +707,7 @@
                 <h4>M. Bachir</h4>
                 <span>Concepteur principal</span>
                 <p>Expert en création de designs innovants qui captivent et inspirent.</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
+                <x-reseaux-sociaux class="social" />
               </div>
             </div>
           </div><!-- End Team Member -->
@@ -701,12 +719,7 @@
                 <h4>Esai KOTCHONI</h4>
                 <span>Consultant en stratégie</span>
                 <p>Spécialiste en stratégies de communication visuelle adaptées aux besoins spécifiques de chaque client.</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
+                <x-reseaux-sociaux class="social" />
               </div>
             </div>
           </div><!-- End Team Member -->
@@ -718,12 +731,7 @@
                 <h4>Ignace DOSSA</h4>
                 <span>Directeur de projet </span>
                 <p>Expérience éprouvée dans la gestion de projets de communication visuelle complexes.</p>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""> <i class="bi bi-linkedin"></i> </a>
-                </div>
+                <x-reseaux-sociaux class="social" />
               </div>
             </div>
           </div><!-- End Team Member -->
@@ -1043,12 +1051,17 @@
                   </div>
                 </div>
               </a>
-              <a href="#" class="col-lg-4" data-aos="fade-left" data-aos-delay="100">
+              {{-- Cette carte pointait vers href="#" : cliquer sur l'adresse
+                   renvoyait en haut de page. Elle ouvre désormais la
+                   localisation, comme l'e-mail ouvre le client mail et le
+                   téléphone déclenche l'appel. --}}
+              <a href="{{ config('astuscite.adresse.carte') }}" target="_blank" rel="noopener noreferrer"
+                 class="col-lg-4" data-aos="fade-left" data-aos-delay="100">
                 <div >
                   <div class="info-item">
                     <i class="fa fa-map-marked-alt"></i>
-                    <h4>Addresse</h4>
-                    <span>Cotonou Sikècodji,535022</span>
+                    <h4>Adresse</h4>
+                    <span>{{ config('astuscite.adresse.libelle') }}</span>
                   </div>
                 </div>
               </a>
@@ -1138,7 +1151,7 @@
     <div class="container footer-top">
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
-          <a href="index.html" class="logo d-flex align-items-center">
+          <a href="{{ url('/') }}" class="logo d-flex align-items-center">
             <span class="sitename">Astuscite</span>
           </a>
           <div class="footer-contact pt-3">
@@ -1156,8 +1169,20 @@
             <li><a href="#hero">Accueil</a></li>
             <li><a href="#about">A propos de nous </a></li>
             <li><a href="#services">Services</a></li>
-            <li><a href="">onditions d'utilisations</a></li>
-            <li><a href="">Police de confidentialité</a></li>
+            {{-- « onditions » et « Police » étaient des coquilles, et les deux
+                 href="" rechargeaient la page. Les liens n'apparaissent
+                 désormais que si l'URL de la page existe. --}}
+            @if (config('astuscite.pages_legales.conditions'))
+            <li><a href="{{ config('astuscite.pages_legales.conditions') }}">Conditions d'utilisation</a></li>
+            @endif
+            @if (config('astuscite.pages_legales.confidentialite'))
+            <li><a href="{{ config('astuscite.pages_legales.confidentialite') }}">Politique de confidentialité</a></li>
+            @endif
+            <li>
+              <a href="{{ route('login') }}" class="lien-administration">
+                <i class="bi bi-shield-lock me-1"></i>Administration
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -1174,12 +1199,7 @@
         </div>
 
       </div>
-      <div class="social-links d-flex mt-4" id="sociallinks2">
-        <a href=""><i class="bi bi-twitter-x"></i></a>
-        <a href=""><i class="bi bi-facebook"></i></a>
-        <a href=""><i class="bi bi-instagram"></i></a>
-        <a href=""><i class="bi bi-linkedin"></i></a>
-      </div>
+      <x-reseaux-sociaux class="social-links d-flex mt-4" id="sociallinks2" />
     </div>
 
     <div class="container copyright text-center mt-4">
