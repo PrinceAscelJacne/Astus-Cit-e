@@ -65,6 +65,13 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "audit": {
+            "ignore": {
+                "PKSA-mdq4-51ck-6kdq": "CRLF injection dans la regle email : aucun correctif publie pour la branche 10.x, corrige a partir de Laravel 12.60. A lever lors de la montee en version majeure.",
+                "PKSA-3r5d-mb8f-1qw9": "Idem : corrige en 12.60.0, pas de retroportage en 10.x.",
+                "PKSA-m5cs-t1y6-qpcs": "Temporary Signed URL Path Confusion : corrige en 12.61.1, pas de retroportage en 10.x. L'application n'expose aucune URL signee temporaire."
+            }
         }
     },
     "minimum-stability": "stable",

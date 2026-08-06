@@ -37,6 +37,47 @@ class User extends Authenticatable
     }
 
     /**
+     * Le rôle le plus élevé : accès complet à l'administration.
+     */
+    public function isBoss(): bool
+    {
+        return (int) $this->role_id === Role::BOSS;
+    }
+
+    /**
+     * Chef de département : périmètre limité à son propre département.
+     */
+    public function isChefDepartement(): bool
+    {
+        return (int) $this->role_id === Role::CHEF_DEPARTEMENT;
+    }
+
+    public function isEmploye(): bool
+    {
+        return (int) $this->role_id === Role::EMPLOYE;
+    }
+
+    /**
+     * Les rôles autorisés à inscrire de nouveaux utilisateurs, et les rôles
+     * qu'ils peuvent attribuer. Un chef de département ne crée que des employés,
+     * et uniquement dans son propre département.
+     *
+     * @return array<int, int>
+     */
+    public function rolesAttribuables(): array
+    {
+        if ($this->isBoss()) {
+            return [Role::EMPLOYE, Role::CHEF_DEPARTEMENT, Role::BOSS];
+        }
+
+        if ($this->isChefDepartement()) {
+            return [Role::EMPLOYE];
+        }
+
+        return [];
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>

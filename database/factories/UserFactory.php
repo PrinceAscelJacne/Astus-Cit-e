@@ -21,7 +21,16 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->lastName(),
+            // « surname » et « phone » sont NOT NULL sur cette application :
+            // sans elles, toute fabrique d'utilisateur échouait.
+            'surname' => $this->faker->firstName(),
+            'phone' => $this->faker->numerify('########'),
+            // Laissé nul par défaut : la table « roles » est vide sous
+            // RefreshDatabase, et la clé étrangère refuserait un identifiant
+            // inexistant. Les tests qui ont besoin d'un rôle le posent eux-mêmes.
+            'role_id' => null,
+            'department_id' => null,
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

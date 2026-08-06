@@ -339,30 +339,10 @@ document.addEventListener('DOMContentLoaded', function() {
         editFileModal.show();
     });
 
-    // Handle form submission
-    document.getElementById('editFileFor').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-
-        fetch('{{ route('storefile') }}', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        }).then(response => response.json())
-          .then(data => {
-              if (data.success) {
-                  alert('Fichier modifié avec succès.');
-                  editFileModal.hide();
-                  window.location.reload();
-              } else {
-                  alert('Erreur lors de la modification du fichier.');
-              }
-          }).catch(() => {
-              alert('Erreur lors de la modification du fichier.');
-          });
-    });
+    // Le formulaire #editFileForm est soumis normalement par le navigateur.
+    // Un handler fetch ciblait ici « editFileFor » (élément inexistant) : il
+    // levait une erreur à chaque chargement de la page et attendait de plus
+    // une réponse JSON que storefile ne renvoie pas.
 });
 
 </script>

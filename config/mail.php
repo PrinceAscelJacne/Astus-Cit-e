@@ -114,6 +114,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Destinataire du formulaire de contact
+    |--------------------------------------------------------------------------
+    |
+    | Adresse qui reçoit les messages envoyés depuis le site vitrine. Elle
+    | était auparavant codée en dur dans FrontendController.
+    |
+    */
+
+    'contact_recipient' => env('MAIL_CONTACT_RECIPIENT', env('MAIL_FROM_ADDRESS')),
+
+    /*
+    |--------------------------------------------------------------------------
     | Markdown Mail Settings
     |--------------------------------------------------------------------------
     |

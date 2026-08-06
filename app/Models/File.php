@@ -8,16 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class File extends Model
 {
     use HasFactory;
-    public function project ()
+
+    /**
+     * La colonne s'appelle « filename » : « name » n'existe pas sur cette table.
+     */
+    protected $fillable = [
+        'filename', 'path', 'type', 'status', 'project_id', 'user_id',
+    ];
+
+    public function project()
     {
         return $this->belongsTo(Project::class);
     }
-    public function user ()
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-    protected $fillable = [
-        'status', 'type', 'name'
-    ];
 }

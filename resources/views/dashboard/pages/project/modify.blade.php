@@ -25,7 +25,9 @@
             <small class="text-muted float-end"></small>
           </div>
           <div class="card-body">
-            <form action="{{ route('updateproject', ['id' => $project->id]) }}" method="post">
+            {{-- enctype indispensable : sans lui le champ « fichier » de ce
+                 formulaire n'était jamais transmis au serveur. --}}
+            <form action="{{ route('updateproject', ['id' => $project->id]) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 
               <div class="row mb-3">

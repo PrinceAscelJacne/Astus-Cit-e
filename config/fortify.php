@@ -144,7 +144,10 @@ return [
     */
 
     'features' => [
-        Features::registration(),
+        // Inscription publique désactivée : elle exposait GET/POST /register à
+        // tout visiteur, alors que les comptes de cette application sont créés
+        // par un chef de département ou le Boss via /auth/registerauth.
+        // Features::registration(),
         Features::resetPasswords(),
         // Features::emailVerification(),
         Features::updateProfileInformation(),

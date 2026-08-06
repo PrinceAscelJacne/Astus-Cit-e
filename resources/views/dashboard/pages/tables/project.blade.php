@@ -66,6 +66,9 @@
                     </tbody>
                   </table>
                 </div>
+                <div class="p-3">
+                  {{ $projects->links() }}
+                </div>
 </div>
 <!-- Confirmation Modal -->
 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">

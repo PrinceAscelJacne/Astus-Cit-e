@@ -49,8 +49,7 @@
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="{{route('modifyuser', ['id' => $user->id])}}"><i class="bx bx-edit-alt me-1"></i> Modifier</a>
-                                        <a class="dropdown-item" href="{{ route('delete', ['table' => 'user','id' => $user->id]) }}" onclick="event.preventDefault(); document.getElementById('delete-project-form-{{ $user->id }}').submit();">
+                                        <a class="dropdown-item" href="{{ route('delete', ['table' => 'users','id' => $user->id]) }}" onclick="event.preventDefault(); document.getElementById('delete-project-form-{{ $user->id }}').submit();">
                                             <i class="bx bx-trash me-1"></i> Supprimer
                                         </a>
                                         <form id="delete-project-form-{{ $user->id }}" action="{{ route('delete', ['table' => 'users','id' => $user->id]) }}" method="POST" style="display: none;">
@@ -64,6 +63,9 @@
                         @endforeach
                     </tbody>
                   </table>
+                </div>
+                <div class="p-3">
+                  {{ $users->links() }}
                 </div>
               </div>
 @endsection

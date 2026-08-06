@@ -15,6 +15,24 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
+    @if(session('generated_password'))
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Mot de passe provisoire à transmettre à l'utilisateur :
+        <strong>{{ session('generated_password') }}</strong><br>
+        <small>Il ne sera plus affiché après avoir quitté cette page.</small>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+    @if($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul class="mb-0">
+            @foreach($errors->all() as $erreur)
+            <li>{{ $erreur }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
     <!-- Form Layout -->
     <div class="row">
         <div class="col-xxl">
@@ -115,17 +133,17 @@
                             </div>
                         </div>
 
-                        <!-- Mot de passe (généré automatiquement) -->
-                        @php
-                            $generatedPassword = Str::random(8); // Génère un mot de passe aléatoire de 8 caractères
-                        @endphp
+                        {{-- Le mot de passe provisoire est désormais généré par
+                             Authcontroller::store et affiché en haut de page
+                             après création. Il n'est plus envoyé par le
+                             formulaire : le champ était seulement « readonly »,
+                             donc modifiable depuis le navigateur. --}}
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="password">Mot de passe</label>
+                            <label class="col-sm-2 col-form-label">Mot de passe</label>
                             <div class="col-sm-10">
-                                <div class="input-group input-group-merge">
-                                    <span class="input-group-text"><i class="bx bx-lock"></i></span>
-                                    <input type="text" name="password" id="password" value="{{ $generatedPassword }}" class="form-control" readonly>
-                                </div>
+                                <p class="form-control-plaintext text-muted mb-0">
+                                    Généré automatiquement et affiché une seule fois après la création du compte.
+                                </p>
                             </div>
                         </div>
 

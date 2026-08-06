@@ -8,14 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Department extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['name'];
+
     public function projects()
     {
         return $this->hasMany(Project::class);
     }
-    /*public function projects()
-    {
-        return $this->belongsToMany(Project::class);
-    }*/
 
     public function users()
     {

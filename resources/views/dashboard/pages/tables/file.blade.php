@@ -117,6 +117,9 @@
                     @endif
                   </table>
     </div>
+    <div class="p-3">
+      {{ $files->links() }}
+    </div>
 </div>
 <!-- Floating Action Button -->
 <div id="fab-container">

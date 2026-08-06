@@ -8,6 +8,12 @@
 .env
 .env.backup
 .env.production
+
+# Secrets : ne jamais versionner d'identifiants en clair
+credentials*.txt
+*.credentials
+*.pem
+*.key
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
