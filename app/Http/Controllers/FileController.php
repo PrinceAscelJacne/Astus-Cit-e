@@ -17,21 +17,13 @@ class FileController extends Controller
     use GroupeParAnciennete;
 
     /**
-     * Extensions acceptées à l'upload. Déclarées en tableau : écrites en
-     * chaîne, une espace après une virgule produisait une extension « pdf »
-     * précédée d'un blanc, qui ne correspondait jamais.
+     * Taille maximale d'un envoi, en kilo-octets (512 Mo).
      *
-     * @var array<int, string>
+     * Une agence d'événementiel dépose des vidéos et des maquettes : la
+     * limite précédente de 20 Mo ne suffisait pas. Attention, PHP impose
+     * sa propre limite (upload_max_filesize), plus basse par défaut.
      */
-    private const EXTENSIONS_AUTORISEES = [
-        'jpg', 'jpeg', 'png', 'mp4', 'mp3', 'zip',
-        'pdf', 'docx', 'txt', 'csv', 'json', 'md',
-    ];
-
-    /**
-     * Taille maximale d'un envoi, en kilo-octets (20 Mo).
-     */
-    private const TAILLE_MAX_KO = 20480;
+    private const TAILLE_MAX_KO = 524288;
 
     public function index(Request $request)
     {
@@ -86,16 +78,20 @@ class FileController extends Controller
         }
 
         $messages = [
-            'fichier.required' => 'Veuillez sélectionner un fichier à télécharger.',
+            'fichier.required' => 'Veuillez sélectionner un fichier à déposer.',
             'fichier.file' => 'Le fichier doit être un fichier valide.',
-            'fichier.mimes' => 'Le fichier doit être de type :values.',
-            'fichier.max' => 'Le fichier ne peut pas dépasser 20 Mo.',
+            'fichier.mimes' => 'Ce format n\'est pas accepté.',
+            'fichier.max' => 'Le fichier ne peut pas dépasser 512 Mo.',
         ];
 
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
-            'fichier' => 'required|file|mimes:' . implode(',', self::EXTENSIONS_AUTORISEES) . '|max:' . self::TAILLE_MAX_KO,
+            'fichier' => 'required|file|mimes:' . implode(',', File::extensionsAutorisees()) . '|max:' . self::TAILLE_MAX_KO,
             'projet' => 'nullable|integer|exists:projects,id',
             'type' => 'required|in:brouillon,officiel',
+            // Le déposant choisit qui voit son fichier ; à défaut, l'équipe
+            // du projet, qui est le cas courant du travail à distance.
+            'visibilite' => 'nullable|in:' . implode(',', array_keys(File::VISIBILITES)),
+            'description' => 'nullable|string|max:255',
         ], $messages);
 
         if ($validator->fails()) {
@@ -105,16 +101,21 @@ class FileController extends Controller
         $file = $request->file('fichier');
         $path = $file->store('files');
 
-        $fileModel = new File();
-        $fileModel->filename = $file->getClientOriginalName();
-        $fileModel->path = $path;
-        $fileModel->user_id = Auth::id();
-        $fileModel->project_id = $request->projet;
-        $fileModel->type = $request->type;
-        $fileModel->status = 'actif';
-        $fileModel->save();
+        File::create([
+            'filename' => $file->getClientOriginalName(),
+            'path' => $path,
+            // Conservés pour lister et prévisualiser sans ouvrir le fichier.
+            'mime' => $file->getClientMimeType(),
+            'taille' => $file->getSize(),
+            'description' => $request->description,
+            'user_id' => Auth::id(),
+            'project_id' => $request->projet,
+            'type' => $request->type,
+            'status' => 'actif',
+            'visibilite' => $request->visibilite ?: 'equipe',
+        ]);
 
-        return redirect()->back()->with('success', 'Fichier enregistré avec succès.');
+        return redirect()->back()->with('success', 'Fichier déposé avec succès.');
     }
 
     public function modify(int $id)

@@ -74,6 +74,70 @@ class Project extends Model
         return $this->hasMany(Activite::class)->latest();
     }
 
+    /**
+     * Ce qui a été dit sur le projet.
+     */
+    public function discussions()
+    {
+        return $this->hasMany(Discussion::class)->oldest();
+    }
+
+    /**
+     * Ce qui reste à faire.
+     */
+    public function taches()
+    {
+        return $this->hasMany(Tache::class);
+    }
+
+    /* ------------------------------------------------------------------
+       Archivage
+       ------------------------------------------------------------------ */
+
+    public function estArchive(): bool
+    {
+        return $this->status === 'archive';
+    }
+
+    /**
+     * Range le projet une fois terminé. Rien n'est supprimé : fichiers,
+     * discussions, tâches et journal restent attachés, pour pouvoir le
+     * ressortir plus tard ou le présenter à un client.
+     */
+    public function archiver(): void
+    {
+        $this->update(['status' => 'archive']);
+        $this->files()->update(['status' => 'archive']);
+    }
+
+    /**
+     * Ressort le projet des archives pour reprendre le travail.
+     */
+    public function desarchiver(): void
+    {
+        $this->update(['status' => 'actif']);
+        $this->files()->update(['status' => 'actif']);
+        $this->consigner('restaure');
+    }
+
+    /* ------------------------------------------------------------------
+       Suivi
+       ------------------------------------------------------------------ */
+
+    /**
+     * Part des tâches terminées, quand le projet en compte.
+     */
+    public function partTachesFaites(): ?int
+    {
+        $total = $this->taches()->count();
+
+        if ($total === 0) {
+            return null;
+        }
+
+        return (int) round($this->taches()->where('statut', 'fait')->count() / $total * 100);
+    }
+
     public function estMembre(User $utilisateur): bool
     {
         return $this->membres->contains('id', $utilisateur->id)
