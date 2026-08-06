@@ -55,6 +55,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!--tinyMCE-->
     <script src="https://cdn.tiny.cloud/1/7k09x2zuopjg2tg9jq79gaj42pl04w582x9xw0pg451sxhh3/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    {{-- Chargée en dernier pour ne pas être neutralisée par le thème. --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/astuscite-dashboard.css') }}" />
   </head>
 
   <body>

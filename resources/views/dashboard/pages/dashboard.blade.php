@@ -113,7 +113,7 @@
         <div class="col-lg-4 col-md-4 order-2 mb-3" data-aos="fade-up" data-aos-delay="150">
             <div class="card">
                 <div class="boss d-flex justify-content-center">
-                    <img src="assets/ordi.png" class="card-img-top" style="height: 200px; width: 200px;" alt="Image Placeholder">
+                    <img src="assets/ordi.png" class="card-img-top illustration-carte" width="160" height="160" loading="lazy" decoding="async" alt="Image Placeholder">
                 </div>
 
                 <div class="card-body">
@@ -127,7 +127,7 @@
         <div class="col-lg-4 col-md-4 order-3 mb-4" data-aos="fade-up" data-aos-delay="175">
             <div class="card">
                 <div class="boss d-flex justify-content-center">
-                    <img src="assets/archives.jpg" class="card-img-top" style="height: 200px; width: 200px;" alt="Image Placeholder">
+                    <img src="assets/archives.jpg" class="card-img-top illustration-carte" width="160" height="160" loading="lazy" decoding="async" alt="Image Placeholder">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Consulter les archives</h5>
@@ -140,7 +140,7 @@
         <div class="col-lg-4 col-md-4 order-4 mb-4" data-aos="fade-up" data-aos-delay="200">
             <div class="card">
                 <div class="boss d-flex justify-content-center">
-                    <img src="assets/brouillon.webp" class="card-img-top" style="height: 200px; width: 200px;" alt="Image Placeholder">
+                    <img src="assets/brouillon.webp" class="card-img-top illustration-carte" width="160" height="160" loading="lazy" decoding="async" alt="Image Placeholder">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Consulter le brouillon</h5>

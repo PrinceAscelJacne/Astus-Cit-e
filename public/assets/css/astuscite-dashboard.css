@@ -1,0 +1,59 @@
+/*
+ * Back-office Astuscité — ajustements
+ * ---------------------------------------------------------------------------
+ * Chargée après le thème, volontairement, pour que ces règles ne soient pas
+ * neutralisées à spécificité égale.
+ */
+
+/* ---------------------------------------------------------------------------
+   Netteté des illustrations
+   ---------------------------------------------------------------------------
+   Les trois cartes forçaient height/width à 200px alors que les fichiers
+   sources ne le permettent pas. Sur un écran Retina, 200px CSS demandent
+   400px réels :
+       ordi.png ........ 225px  -> nettement insuffisant
+       archives.jpg .... 338px  -> insuffisant
+       brouillon.webp .. 980px  -> largement suffisant
+   D'où une carte visiblement plus nette que les deux autres.
+
+   À 160px d'affichage, archives.jpg passe à 2,1x (net) et ordi.png à 1,4x
+   (nettement amélioré). object-fit évite toute déformation si le fichier
+   n'est pas parfaitement carré.
+*/
+.illustration-carte {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  /* Lissage de meilleure qualité que l'interpolation par défaut. */
+  image-rendering: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   Lisibilité du texte
+   ---------------------------------------------------------------------------
+   Même principe que sur le site vitrine : la teinte de marque, en version
+   plus dense, pour le texte sur fond clair.
+*/
+:root {
+  --astuscite-accent: #1668b3;
+  --astuscite-heading: #2c4964;
+}
+
+.card-title,
+.menu-header-text {
+  color: var(--astuscite-heading);
+}
+
+.card-text {
+  color: #5f5f5f;
+}
+
+/* Focus clavier visible : absent du thème. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--astuscite-accent);
+  outline-offset: 2px;
+}
