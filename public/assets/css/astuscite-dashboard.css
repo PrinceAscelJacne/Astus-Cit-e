@@ -1,51 +1,223 @@
 /*
- * Back-office Astuscité — ajustements
- * ---------------------------------------------------------------------------
- * Chargée après le thème, volontairement, pour que ces règles ne soient pas
- * neutralisées à spécificité égale.
+ * Back-office Astuscité — lisibilité et identité
+ * ===========================================================================
+ * Chargée après le thème, volontairement, pour ne pas être neutralisée.
+ *
+ * Le thème Sneat livré avec le projet pose deux problèmes mesurés :
+ *
+ *  1. Ses textes sont trop clairs (contraste sur blanc, seuil WCAG AA = 4,5)
+ *         #697a8d  4,40  texte courant ....... 69 usages
+ *         #a1acb8  2,31  texte secondaire .... 25 usages
+ *         #8592a3  3,16  libellés ............ 10 usages
+ *         #c7cdd4  1,60  éléments discrets ....  8 usages
+ *     et sa taille de base est de 15 px.
+ *
+ *  2. Sa couleur primaire est #696cff, un violet — sans rapport avec la
+ *     charte d'Astuscité, et à 4,05 de contraste. C'est lui qu'on voyait sur
+ *     les boutons et l'entrée de menu active.
+ *
+ * Valeurs retenues ici (contraste sur blanc) :
+ *         #44546a  7,71  texte courant
+ *         #5f6d7a  5,31  texte secondaire
+ *         #2c4964  9,36  titres — couleur de la charte
+ *         #1668b3  5,73  primaire — bleu Astuscité, version dense
+ * ===========================================================================
  */
 
-/* ---------------------------------------------------------------------------
-   Netteté des illustrations
-   ---------------------------------------------------------------------------
-   Les trois cartes forçaient height/width à 200px alors que les fichiers
-   sources ne le permettent pas. Sur un écran Retina, 200px CSS demandent
-   400px réels :
-       ordi.png ........ 225px  -> nettement insuffisant
-       archives.jpg .... 338px  -> insuffisant
-       brouillon.webp .. 980px  -> largement suffisant
-   D'où une carte visiblement plus nette que les deux autres.
+:root {
+  --astuscite-accent: #1668b3;
+  --astuscite-accent-clair: #1977cc;
+  --astuscite-heading: #2c4964;
+  --astuscite-texte: #44546a;
+  --astuscite-muted: #5f6d7a;
 
-   À 160px d'affichage, archives.jpg passe à 2,1x (net) et ordi.png à 1,4x
-   (nettement amélioré). object-fit évite toute déformation si le fichier
-   n'est pas parfaitement carré.
+  /* Reprise des variables Bootstrap du thème. */
+  --bs-primary: #1668b3;
+  --bs-primary-rgb: 22, 104, 179;
+  --bs-body-color: #44546a;
+  --bs-body-color-rgb: 68, 84, 106;
+  --bs-link-color: #1668b3;
+  --bs-link-hover-color: #2c4964;
+  --bs-body-font-size: 1rem;
+}
+
+/* ---------------------------------------------------------------------------
+   1. Texte : taille et densité
+   --------------------------------------------------------------------------- */
+
+body {
+  font-size: 1rem;
+  color: var(--astuscite-texte);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p,
+.card-text,
+td,
+.table td {
+  color: var(--astuscite-texte);
+}
+
+h1, h2, h3, h4, h5, h6,
+.card-title,
+.table th,
+.fw-bold,
+.fw-bolder {
+  color: var(--astuscite-heading);
+}
+
+/* Les gris les plus délavés du thème, remontés au-dessus du seuil. */
+.text-muted,
+.text-secondary,
+small,
+.small,
+.menu-header-text,
+.form-text {
+  color: var(--astuscite-muted) !important;
+}
+
+/* Libellés de formulaire : lisibles et repérables. */
+.form-label,
+label {
+  color: var(--astuscite-heading);
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------------------------
+   2. Couleur primaire : le violet du thème laisse place au bleu Astuscité
+   --------------------------------------------------------------------------- */
+
+/* Le thème pose background-color en dur sur .btn-primary, et non via la
+   variable --bs-btn-bg : il faut donc redéclarer la propriété elle-même. */
+.btn-primary {
+  color: #fff;
+  background-color: var(--astuscite-accent);
+  border-color: var(--astuscite-accent);
+  box-shadow: 0 .125rem .25rem 0 rgba(22, 104, 179, .3);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary.focus,
+.btn-check:focus + .btn-primary {
+  color: #fff;
+  background-color: var(--astuscite-heading);
+  border-color: var(--astuscite-heading);
+}
+
+.btn-primary:active,
+.btn-primary.active,
+.btn-check:checked + .btn-primary,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #12548c;
+  border-color: #12548c;
+}
+
+.btn-outline-primary {
+  color: var(--astuscite-accent);
+  border-color: var(--astuscite-accent);
+  background: transparent;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+  color: #fff;
+  background-color: var(--astuscite-accent);
+  border-color: var(--astuscite-accent);
+}
+
+/* Un bouton portant les deux classes (présent dans le tableau de bord) doit
+   rester lisible : le contour l'emporte. */
+.btn-primary.btn-outline-primary {
+  color: var(--astuscite-accent);
+  background-color: transparent;
+  border-color: var(--astuscite-accent);
+  box-shadow: none;
+}
+
+.btn-primary.btn-outline-primary:hover {
+  color: #fff;
+  background-color: var(--astuscite-accent);
+}
+
+.text-primary {
+  color: var(--astuscite-accent) !important;
+}
+
+.bg-primary {
+  background-color: var(--astuscite-accent) !important;
+}
+
+a {
+  color: var(--astuscite-accent);
+}
+
+a:hover {
+  color: var(--astuscite-heading);
+}
+
+/* Entrée de menu active : le violet du thème était sa marque la plus visible. */
+.menu-item.active > .menu-link {
+  color: var(--astuscite-accent);
+  background: rgba(22, 104, 179, .1);
+}
+
+.menu-item.active > .menu-link .menu-icon {
+  color: var(--astuscite-accent);
+}
+
+.menu-link:hover {
+  color: var(--astuscite-accent);
+}
+
+/* Liens du menu : le thème les affichait en gris clair. */
+.menu-link {
+  color: var(--astuscite-texte);
+}
+
+/* Pastilles et badges de statut. */
+.bg-label-primary {
+  background-color: rgba(22, 104, 179, .12) !important;
+  color: var(--astuscite-accent) !important;
+}
+
+/* Champs de formulaire au focus. */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--astuscite-accent);
+  box-shadow: 0 0 0 .2rem rgba(22, 104, 179, .18);
+}
+
+/* ---------------------------------------------------------------------------
+   3. Netteté des illustrations
+   ---------------------------------------------------------------------------
+   Les cartes forçaient 200x200 px alors que les fichiers ne le permettent pas.
+   Sur un écran Retina, 200 px CSS demandent 400 px réels :
+       ordi.png 225 px, archives.jpg 338 px, brouillon.webp 980 px.
+   À 160 px, archives.jpg atteint 2,1x (net) et ordi.png passe de 1,1x à 1,4x.
 */
+
 .illustration-carte {
   width: 160px;
   height: 160px;
   object-fit: contain;
-  /* Lissage de meilleure qualité que l'interpolation par défaut. */
-  image-rendering: auto;
 }
 
 /* ---------------------------------------------------------------------------
-   Lisibilité du texte
-   ---------------------------------------------------------------------------
-   Même principe que sur le site vitrine : la teinte de marque, en version
-   plus dense, pour le texte sur fond clair.
-*/
-:root {
-  --astuscite-accent: #1668b3;
-  --astuscite-heading: #2c4964;
+   4. Confort de lecture
+   --------------------------------------------------------------------------- */
+
+.card {
+  border: 1px solid #e6ebf1;
+  box-shadow: 0 2px 10px rgba(44, 73, 100, .06);
 }
 
-.card-title,
-.menu-header-text {
-  color: var(--astuscite-heading);
-}
-
-.card-text {
-  color: #5f5f5f;
+.table > :not(caption) > * > * {
+  padding: .85rem 1rem;
 }
 
 /* Focus clavier visible : absent du thème. */
@@ -53,7 +225,8 @@ a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
-textarea:focus-visible {
+textarea:focus-visible,
+.menu-link:focus-visible {
   outline: 3px solid var(--astuscite-accent);
   outline-offset: 2px;
 }
