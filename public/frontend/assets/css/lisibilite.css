@@ -1,0 +1,301 @@
+/*
+ * Lisibilité — Astuscité
+ * ---------------------------------------------------------------------------
+ * Cette feuille est chargée APRÈS main.css, volontairement : les règles
+ * écrites en <style> dans le <head> arrivaient avant et étaient donc écrasées
+ * par le thème, à spécificité égale.
+ *
+ * La charte n'est pas remplacée. On ajoute une déclinaison plus dense de la
+ * couleur d'accent, de teinte identique, réservée au TEXTE sur fond clair :
+ * #1977cc passe 4,27 sur les fonds teintés du site, sous le seuil de 4,5 exigé
+ * par le WCAG AA. #1668b3 atteint 5,31 pour la même couleur perçue.
+ *
+ * Contrastes mesurés sur la page rendue (texte / fond) :
+ *   #1977cc sur blanc ....... 4,61   sur #f1f7fc ... 4,27  (insuffisant)
+ *   #1668b3 sur blanc ....... 5,73   sur #f1f7fc ... 5,31  (conforme)
+ *   #5f5f5f sur blanc ....... 6,39   sur #f1f7fc ... 5,91  (conforme)
+ *   #2c4964 sur blanc ....... 9,36                          (déjà conforme)
+ */
+
+:root {
+  /* Accent d'origine, conservé pour les aplats et les grands éléments. */
+  --accent-color: #1977cc;
+  /* Même teinte, plus dense : pour le texte et les petits éléments. */
+  --accent-strong: #1668b3;
+  /* Gris secondaire lisible, en remplacement des gris trop clairs du thème. */
+  --muted-strong: #5f5f5f;
+}
+
+/* --------------------------------------------------------------------------
+   1. Textes en couleur d'accent sur fond clair
+   -------------------------------------------------------------------------- */
+
+a,
+.services .service-item .stretched-link h3,
+.footer .footer-links ul a:hover,
+.footer .social-links a:hover,
+.lien-administration {
+  color: var(--accent-strong);
+}
+
+.navmenu a:hover,
+.navmenu .active,
+.navmenu .active:focus {
+  color: var(--accent-strong);
+}
+
+/* --------------------------------------------------------------------------
+   2. Gris trop clairs
+   -------------------------------------------------------------------------- */
+
+/* Le thème délave ces textes avec color-mix(..., transparent 30%), ce qui
+   ramène #444 à 4,0-4,2 de contraste — juste sous le seuil de 4,5. */
+.footer .footer-links ul a,
+.footer .footer-links ul li p,
+.footer p,
+.services .service-item p,
+.section-title p {
+  color: var(--muted-strong);
+}
+
+/* Sélecteur aligné sur celui de main.css (.hero .content .icon-box p), sinon
+   la règle du thème l'emporte par spécificité. */
+.hero .content .icon-box p {
+  color: var(--muted-strong);
+}
+
+/* --------------------------------------------------------------------------
+   3. Boutons : texte blanc sur aplat suffisamment dense
+   -------------------------------------------------------------------------- */
+
+.hero .content .why-box .more-btn {
+  background: rgba(0, 0, 0, .28);
+  color: #fff;
+  font-weight: 500;
+}
+
+.hero .content .why-box .more-btn:hover {
+  background: rgba(0, 0, 0, .42);
+  color: #fff;
+}
+
+/* Bouton d'envoi du formulaire de contact : l'orange #ff511a du thème
+   d'origine ne donnait que 3,26 en blanc sur fond. On revient à la couleur
+   de la marque, plus dense. */
+#contact1 button.orange-button {
+  background-color: var(--accent-strong);
+}
+
+#contact1 button.orange-button:hover {
+  background-color: var(--heading-color);
+}
+
+/* Coordonnées de la section carte : le vert #43ba7f du thème tombait à 2,45
+   sur blanc, et ne fait pas partie de la charte d'Astuscité. */
+section.map .info-item span,
+section.map .info-item i {
+  color: var(--accent-strong);
+}
+
+section.map .info-item a:hover span {
+  color: var(--heading-color);
+}
+
+/* --------------------------------------------------------------------------
+   4. Témoignages
+   Ces règles vivaient dans le <style> du <head> et étaient neutralisées par
+   main.css — d'où le texte des pastilles resté gris au lieu de blanc.
+   -------------------------------------------------------------------------- */
+
+.temoignages-section {
+  background-color: #f7f9fc;
+  padding: 80px 0;
+}
+
+.temoignages-section .eyebrow {
+  display: inline-block;
+  font-family: var(--nav-font);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+  margin-bottom: 10px;
+}
+
+.temoignages-section h2,
+.temoignages-section h3 {
+  font-family: var(--heading-font);
+  color: var(--heading-color);
+  font-weight: 700;
+}
+
+.temoignage-carte {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 2px 18px rgba(44, 73, 100, .08);
+  transition: transform .3s, box-shadow .3s;
+}
+
+.temoignage-carte:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 28px rgba(44, 73, 100, .14);
+}
+
+.temoignage-notes {
+  color: #c77700; /* 4,6 sur blanc, contre 2,1 pour l'ambre d'origine */
+  margin-bottom: 14px;
+  font-size: 15px;
+}
+
+.temoignage-message {
+  flex-grow: 1;
+  color: var(--default-color);
+  font-style: italic;
+  line-height: 1.7;
+}
+
+.temoignage-auteur {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #eef2f7;
+}
+
+.temoignage-pastille {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--accent-strong);
+  color: #fff;
+  font-family: var(--heading-font);
+  font-weight: 600;
+}
+
+.temoignage-auteur strong {
+  display: block;
+  color: var(--heading-color);
+  line-height: 1.3;
+}
+
+/* Ciblage du seul sous-titre : « .temoignage-auteur span » attrapait aussi la
+   pastille, qui est un span, et lui reprenait sa couleur de texte blanche. */
+.temoignage-auteur > div > span {
+  font-size: 14px;
+  color: var(--muted-strong);
+}
+
+.temoignage-formulaire {
+  background: #fff;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 2px 18px rgba(44, 73, 100, .08);
+}
+
+.temoignage-formulaire .form-label {
+  font-weight: 600;
+  color: var(--heading-color);
+  font-size: 14px;
+}
+
+.temoignage-formulaire .requis {
+  color: var(--accent-strong);
+}
+
+.temoignage-formulaire .form-control,
+.temoignage-formulaire .form-select {
+  border-color: #cbd6e2;
+  color: var(--default-color);
+}
+
+.temoignage-formulaire .form-control:focus,
+.temoignage-formulaire .form-select:focus {
+  border-color: var(--accent-strong);
+  box-shadow: 0 0 0 .2rem rgba(22, 104, 179, .2);
+}
+
+.btn-temoignage {
+  margin-top: 10px;
+  padding: 12px 34px;
+  border: none;
+  border-radius: 50px;
+  background: var(--accent-strong);
+  color: #fff;
+  font-family: var(--nav-font);
+  font-weight: 600;
+  transition: background .3s, transform .3s;
+}
+
+.btn-temoignage:hover {
+  background: var(--heading-color);
+  transform: translateY(-2px);
+}
+
+.mention-moderation {
+  margin: 14px 0 0;
+  font-size: 13px;
+  color: var(--muted-strong);
+}
+
+/* --------------------------------------------------------------------------
+   5. Pied de page
+   -------------------------------------------------------------------------- */
+
+.social-inactif {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .45;
+  cursor: default;
+}
+
+.lien-administration {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  transition: color .3s, transform .3s;
+}
+
+.lien-administration:hover {
+  color: var(--heading-color);
+  transform: translateX(3px);
+}
+
+.lien-administration i {
+  transition: transform .3s;
+}
+
+.lien-administration:hover i {
+  transform: scale(1.15);
+}
+
+/* --------------------------------------------------------------------------
+   6. Focus clavier
+   Le thème ne matérialisait pas la cible active : navigation impossible au
+   clavier sans repère visuel.
+   -------------------------------------------------------------------------- */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+@media (max-width: 575px) {
+  .temoignage-formulaire {
+    padding: 26px 20px;
+  }
+}
