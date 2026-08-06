@@ -63,10 +63,34 @@ class DashboardController extends Controller
     }
     
 
+    /**
+     * Les projets rangés une fois terminés.
+     *
+     * Cette page ne recevait aucune donnée : un projet archivé disparaissait
+     * de la liste des projets sans réapparaître nulle part. On doit pouvoir le
+     * retrouver pour le reprendre ou le présenter à un client.
+     */
     public function archives()
     {
+        $utilisateur = auth()->user();
 
-        return view('dashboard.pages.archives.archives');
+        $projets = Project::with('department', 'createur')
+            ->withCount('files')
+            ->where('status', 'archive')
+            ->when(
+                ! $utilisateur->isBoss() && ! $utilisateur->peut(\App\Support\Droits::PROJETS_GERER_TOUS),
+                // Sans droit global, on ne voit que les projets de son
+                // département ou ceux dont on faisait partie.
+                fn ($q) => $q->where(function ($q2) use ($utilisateur) {
+                    $q2->where('department_id', $utilisateur->department_id)
+                       ->orWhereNull('department_id')
+                       ->orWhereHas('membres', fn ($q3) => $q3->where('users.id', $utilisateur->id));
+                })
+            )
+            ->latest('updated_at')
+            ->paginate(12);
+
+        return view('dashboard.pages.archives.archives', compact('projets'));
     }
     public function nouveautes(){
         return view('dashboard.pages.nouveautes');

@@ -137,8 +137,40 @@
       <a href="{{ route('downloadfile', $fichier->id) }}" class="btn btn-sm btn-outline-primary">Télécharger</a>
     </div>
     @empty
-    <p class="text-muted py-4 mb-0">Aucun livrable visible pour vous sur ce projet.</p>
+    <p class="text-muted pt-4 mb-0">Aucun livrable visible pour vous sur ce projet.</p>
     @endforelse
+
+    {{-- Dépôt rattaché au projet : contrairement au formulaire général de la
+         page « Fichiers », le projet ne peut pas être oublié ici. --}}
+    <form method="POST" action="{{ route('projet.livrable', $projet) }}"
+          enctype="multipart/form-data" class="row g-2 mt-4">
+      @csrf
+      <div class="col-md-4">
+        <label class="form-label" for="fichier">Déposer un livrable</label>
+        <input type="file" name="fichier" id="fichier" class="form-control form-control-sm" required>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label" for="visibilite">Visible par</label>
+        <select name="visibilite" id="visibilite" class="form-select form-select-sm">
+          @foreach(\App\Models\File::VISIBILITES as $cle => $libelle)
+            <option value="{{ $cle }}" @selected($cle === 'equipe')>{{ $libelle }}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label" for="description">Description</label>
+        <input type="text" name="description" id="description" class="form-control form-control-sm"
+               placeholder="Facultatif" maxlength="255">
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button class="btn btn-sm btn-primary w-100">Déposer</button>
+      </div>
+      <div class="col-12">
+        <small class="text-muted">
+          Images, vidéos, maquettes (psd, ai, indd), documents, archives — jusqu'à 512 Mo.
+        </small>
+      </div>
+    </form>
   </div>
 
   {{-- Échanges --}}

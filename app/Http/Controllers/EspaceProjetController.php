@@ -84,6 +84,46 @@ class EspaceProjetController extends Controller
         })->take(30)->values();
     }
 
+    /**
+     * Dépôt d'un livrable depuis le projet lui-même.
+     *
+     * Le formulaire général de la page « Fichiers » propose un choix de projet
+     * dont la valeur par défaut est « Aucun » : un fichier déposé sans y
+     * penser n'était rattaché à rien, et n'apparaissait donc nulle part dans
+     * le projet. Ici le rattachement est implicite, il ne peut pas être oublié.
+     */
+    public function deposer(Request $request, Project $projet)
+    {
+        $utilisateur = $this->verifierAcces($projet);
+
+        $donnees = $request->validate([
+            'fichier' => 'required|file|mimes:' . implode(',', File::extensionsAutorisees()) . '|max:524288',
+            'visibilite' => 'nullable|in:' . implode(',', array_keys(File::VISIBILITES)),
+            'description' => 'nullable|string|max:255',
+        ], [
+            'fichier.required' => 'Choisissez un fichier à déposer.',
+            'fichier.mimes' => 'Ce format n\'est pas accepté.',
+            'fichier.max' => 'Le fichier ne peut pas dépasser 512 Mo.',
+        ]);
+
+        $depose = $request->file('fichier');
+
+        File::create([
+            'filename' => $depose->getClientOriginalName(),
+            'path' => $depose->store('files'),
+            'mime' => $depose->getClientMimeType(),
+            'taille' => $depose->getSize(),
+            'description' => $donnees['description'] ?? null,
+            'type' => 'officiel',
+            'status' => $projet->estArchive() ? 'archive' : 'actif',
+            'visibilite' => $donnees['visibilite'] ?? 'equipe',
+            'project_id' => $projet->id,
+            'user_id' => $utilisateur->id,
+        ]);
+
+        return redirect()->back()->with('success', 'Livrable déposé sur le projet.');
+    }
+
     /* Échanges */
 
     public function ecrire(Request $request, Project $projet)

@@ -73,6 +73,7 @@ Route::middleware([
      */
     Route::prefix('/dashboarde/projet/{projet}')->group(function () {
         Route::get('/', [EspaceProjetController::class, 'fiche'])->name('projet.fiche');
+        Route::post('/livrable', [EspaceProjetController::class, 'deposer'])->name('projet.livrable');
         Route::post('/message', [EspaceProjetController::class, 'ecrire'])->name('projet.message');
         Route::post('/tache', [EspaceProjetController::class, 'ajouterTache'])->name('projet.tache');
         Route::post('/tache/{tache}/bascule', [EspaceProjetController::class, 'basculerTache'])->name('projet.tache.bascule');

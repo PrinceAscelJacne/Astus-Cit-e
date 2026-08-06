@@ -31,7 +31,10 @@
                 ['route' => 'createproject', 'actif' => 'createproject', 'icone' => 'plus', 'libelle' => 'Créer un projet', 'voir' => ! $utilisateur->isEmploye()],
                 ['route' => 'viewfile', 'actif' => 'viewfile', 'icone' => 'fichier', 'libelle' => 'Fichiers', 'voir' => true],
                 ['route' => 'brouillonfiles', 'actif' => 'brouillonfiles', 'icone' => 'modifier', 'libelle' => 'Brouillons', 'voir' => true],
-                ['route' => 'archivesfiles', 'actif' => 'archivesfiles', 'icone' => 'archive', 'libelle' => 'Archives', 'voir' => true],
+                // « Archives » pointait sur les fichiers archivés : les projets
+                // rangés n'étaient accessibles depuis aucun lien.
+                ['route' => 'archives', 'actif' => 'archives', 'icone' => 'archive', 'libelle' => 'Projets archivés', 'voir' => true],
+                ['route' => 'archivesfiles', 'actif' => 'archivesfiles', 'icone' => 'archive', 'libelle' => 'Fichiers archivés', 'voir' => true],
             ],
         ],
         [
