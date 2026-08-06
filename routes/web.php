@@ -6,6 +6,7 @@ use App\Http\Controllers\ProjetController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\TablesController;
+use App\Http\Controllers\TemoignageController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +19,7 @@ use Illuminate\Support\Facades\Route;
 | déclenchent un envoi de mail sans qu'aucun compte ne soit requis.
 */
 
-Route::get('/', function () {
-    return view('frontend');
-});
+Route::get('/', [FrontendController::class, 'accueil'])->name('accueil');
 
 Route::post('/frontend/sendmail', [FrontendController::class, 'sendmail'])
     ->middleware('throttle:5,1')
@@ -29,6 +28,13 @@ Route::post('/frontend/sendmail', [FrontendController::class, 'sendmail'])
 Route::post('/frontend/storerdv', [FrontendController::class, 'storerdv'])
     ->middleware('throttle:5,1')
     ->name('storerdv');
+
+// Dépôt d'un témoignage : point d'entrée public, donc limité en débit. Le
+// statut n'est jamais accepté depuis la requête et reste « en attente »
+// jusqu'à validation dans le back-office.
+Route::post('/frontend/temoignage', [TemoignageController::class, 'store'])
+    ->middleware('throttle:3,1')
+    ->name('temoignage.store');
 
 /*
 |--------------------------------------------------------------------------
@@ -116,5 +122,11 @@ Route::middleware([
         // Messages de contact et demandes de rendez-vous du site vitrine :
         // données personnelles de tiers, donc accès restreint.
         Route::get('/frontend/admin/dashboard', [FrontendController::class, 'dashboard'])->name('frontend-dashboard');
+
+        // Modération des témoignages déposés depuis le site vitrine.
+        Route::get('/dashboarde/temoignages', [TemoignageController::class, 'index'])->name('temoignages');
+        Route::post('/dashboarde/temoignages/{temoignage}/publier', [TemoignageController::class, 'publier'])->name('temoignages.publier');
+        Route::post('/dashboarde/temoignages/{temoignage}/refuser', [TemoignageController::class, 'refuser'])->name('temoignages.refuser');
+        Route::delete('/dashboarde/temoignages/{temoignage}', [TemoignageController::class, 'destroy'])->name('temoignages.destroy');
     });
 });

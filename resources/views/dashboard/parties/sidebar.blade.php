@@ -193,16 +193,24 @@
 
       <!-- Misc -->
       <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
-      <li class="menu-item">
-        <a
-          href="{{route('frontend-dashboard')}}"
 
-          class="menu-link"
-        >
+      {{-- Ces deux pages sont réservées au Boss par les routes. Sans cette
+           condition, les autres rôles voyaient le lien et tombaient sur une
+           erreur 403 en cliquant dessus. --}}
+      @if (auth()->user()->isBoss())
+      <li class="menu-item">
+        <a href="{{route('frontend-dashboard')}}" class="menu-link">
           <i class="menu-icon tf-icons bx bx-file"></i>
           <div data-i18n="Documentation">Site web administration</div>
         </a>
       </li>
+      <li class="menu-item">
+        <a href="{{route('temoignages')}}" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-message-square-detail"></i>
+          <div data-i18n="Temoignages">Témoignages</div>
+        </a>
+      </li>
+      @endif
       <li class="menu-item">
         <a
           href="{{route('nouveautes')}}"

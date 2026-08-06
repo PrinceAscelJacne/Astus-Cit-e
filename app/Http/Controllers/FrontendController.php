@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\MailForm;
 use App\Models\Frontrdv;
 use App\Models\Frontmessage;
+use App\Models\Temoignage;
 use Illuminate\Http\Request;
 use App\Rules\FutureDateTime;
 use Illuminate\Support\Facades\Log;
@@ -12,6 +13,20 @@ use Illuminate\Support\Facades\Mail;
 
 class FrontendController extends Controller
 {
+    /**
+     * Page d'accueil du site vitrine.
+     *
+     * Seuls les témoignages explicitement validés dans le back-office sont
+     * transmis à la vue : le formulaire de dépôt étant public, rien ne doit
+     * apparaître sans être passé par la modération.
+     */
+    public function accueil()
+    {
+        return view('frontend', [
+            'temoignages' => Temoignage::publies()->latest()->take(9)->get(),
+        ]);
+    }
+
     public function sendmail(Request $request)
     {
         $validatedData = $request->validate([

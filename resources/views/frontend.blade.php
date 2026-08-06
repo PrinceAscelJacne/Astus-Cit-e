@@ -191,6 +191,150 @@
         .lien-administration:hover i {
             transform: scale(1.15);
         }
+
+        /* ------------------------------------------------------------------
+           Témoignages
+           Toutes les couleurs proviennent des variables déjà définies dans
+           main.css (--accent-color, --heading-color, --default-color) : la
+           charte d'Astuscité reste inchangée.
+           ------------------------------------------------------------------ */
+        .temoignages-section {
+            background-color: #f7f9fc;
+            padding: 80px 0;
+        }
+
+        .temoignages-section .eyebrow {
+            display: inline-block;
+            font-family: var(--nav-font);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .temoignages-section h2,
+        .temoignages-section h3 {
+            font-family: var(--heading-font);
+            color: var(--heading-color);
+            font-weight: 700;
+        }
+
+        .temoignage-carte {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background: #fff;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 2px 18px rgba(44, 73, 100, .08);
+            transition: transform .3s, box-shadow .3s;
+        }
+
+        .temoignage-carte:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 28px rgba(44, 73, 100, .14);
+        }
+
+        .temoignage-notes {
+            color: #f5a623;
+            margin-bottom: 14px;
+            font-size: 15px;
+        }
+
+        .temoignage-message {
+            flex-grow: 1;
+            color: var(--default-color);
+            font-style: italic;
+            line-height: 1.7;
+        }
+
+        .temoignage-auteur {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 18px;
+            padding-top: 18px;
+            border-top: 1px solid #eef2f7;
+        }
+
+        .temoignage-pastille {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: var(--contrast-color);
+            font-family: var(--heading-font);
+            font-weight: 600;
+        }
+
+        .temoignage-auteur strong {
+            display: block;
+            color: var(--heading-color);
+            line-height: 1.3;
+        }
+
+        .temoignage-auteur span {
+            font-size: 14px;
+            color: var(--default-color);
+        }
+
+        .temoignage-formulaire {
+            background: #fff;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 18px rgba(44, 73, 100, .08);
+        }
+
+        .temoignage-formulaire .form-label {
+            font-weight: 600;
+            color: var(--heading-color);
+            font-size: 14px;
+        }
+
+        .temoignage-formulaire .requis {
+            color: var(--accent-color);
+        }
+
+        .temoignage-formulaire .form-control:focus,
+        .temoignage-formulaire .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 .2rem rgba(25, 119, 204, .15);
+        }
+
+        .btn-temoignage {
+            margin-top: 10px;
+            padding: 12px 34px;
+            border: none;
+            border-radius: 50px;
+            background: var(--accent-color);
+            color: var(--contrast-color);
+            font-family: var(--nav-font);
+            font-weight: 600;
+            transition: background .3s, transform .3s;
+        }
+
+        .btn-temoignage:hover {
+            background: var(--heading-color);
+            transform: translateY(-2px);
+        }
+
+        .mention-moderation {
+            margin: 14px 0 0;
+            font-size: 13px;
+            color: var(--default-color);
+        }
+
+        @media (max-width: 575px) {
+            .temoignage-formulaire {
+                padding: 26px 20px;
+            }
+        }
     </style>
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="frontend/assets/css/main.css" rel="stylesheet">
@@ -819,112 +963,129 @@
     </section><!-- /Faq Section -->
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials section">
+    <!-- Temoignages Section -->
+    <section id="testimonials" class="temoignages-section section">
 
       <div class="container">
 
-        <div class="row align-items-center">
+        <div class="section-title text-center" data-aos="fade-up">
+          <span class="eyebrow">Ce qu'ils disent</span>
+          <h2>Témoignages clients</h2>
+          <p>La satisfaction de nos clients est notre meilleure référence.</p>
+        </div>
 
-          <div class="col-lg-5 info" data-aos="fade-up" data-aos-delay="100">
-            <h3>Témoignages</h3>
-            <p>
-              Découvrez ce que nos clients disent de nous :
-            </p>
-          </div>
-
-          <div class="col-lg-7" data-aos="fade-up" data-aos-delay="200">
-
-            <div class="swiper init-swiper">
-              <script type="application/json" class="swiper-config">
-                {
-                  "loop": true,
-                  "speed": 600,
-                  "autoplay": {
-                    "delay": 5000
-                  },
-                  "slidesPerView": "auto",
-                  "pagination": {
-                    "el": ".swiper-pagination",
-                    "type": "bullets",
-                    "clickable": true
-                  }
-                }
-              </script>
-              <div class="swiper-wrapper">
-
-                <div class="swiper-slide">
-                  <div class="testimonial-item">
-                    <div class="d-flex">
-                      <img src="frontend/assets/img/testimonials/testimonials-1.jpg" class="testimonial-img flex-shrink-0" alt="">
-                      <div>
-                        <h3>Saul Goodman</h3>
-                        <h4>PDG &amp; Fondateur</h4>
-                        <div class="stars">
-                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <p>
-                      <i class="bi bi-quote quote-icon-left"></i>
-                      <span>"Une équipe professionnelle et créative qui a su transformer notre vision en réalité."</span>
-                      <i class="bi bi-quote quote-icon-right"></i>
-                    </p>
-                  </div>
-                </div><!-- End testimonial item -->
-
-                <div class="swiper-slide">
-                  <div class="testimonial-item">
-                    <div class="d-flex">
-                      <img src="frontend/assets/img/testimonials/testimonials-2.jpg" class="testimonial-img flex-shrink-0" alt="">
-                      <div>
-                        <h3>Sara Wilsson</h3>
-                        <h4>Designer</h4>
-                        <div class="stars">
-                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <p>
-                      <i class="bi bi-quote quote-icon-left"></i>
-                      <span>"Leur travail de conception graphique est exceptionnel et a vraiment aidé notre entreprise à se démarquer."</span>
-                      <i class="bi bi-quote quote-icon-right"></i>
-                    </p>
-                  </div>
-                </div><!-- End testimonial item -->
-
-                <div class="swiper-slide">
-                  <div class="testimonial-item">
-                    <div class="d-flex">
-                      <img src="frontend/assets/img/testimonials/testimonials-3.jpg" class="testimonial-img flex-shrink-0" alt="">
-                      <div>
-                        <h3>Jena Karlis</h3>
-                        <h4>Propriétaire de magasin</h4>
-                        <div class="stars">
-                          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <p>
-                      <i class="bi bi-quote quote-icon-left"></i>
-                      <span>"Des services de haute qualité et une équipe à l'écoute de nos besoins."</span>
-                      <i class="bi bi-quote quote-icon-right"></i>
-                    </p>
-                  </div>
-                </div><!-- End testimonial item -->
-
-
-
+        @if ($temoignages->isNotEmpty())
+        <div class="row gy-4 mb-5">
+          @foreach ($temoignages as $temoignage)
+          <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="{{ 100 + $loop->index * 50 }}">
+            <div class="temoignage-carte">
+              <div class="temoignage-notes" aria-label="Note : {{ $temoignage->note }} sur 5">
+                @for ($i = 1; $i <= 5; $i++)
+                <i class="bi {{ $i <= $temoignage->note ? 'bi-star-fill' : 'bi-star' }}"></i>
+                @endfor
               </div>
-              <div class="swiper-pagination"></div>
+              <p class="temoignage-message">{{ $temoignage->message }}</p>
+              <div class="temoignage-auteur">
+                <span class="temoignage-pastille">{{ $temoignage->initiales() }}</span>
+                <div>
+                  <strong>{{ $temoignage->nom }}</strong>
+                  <span>{{ $temoignage->entreprise ?: $temoignage->service }}</span>
+                </div>
+              </div>
             </div>
-
           </div>
+          @endforeach
+        </div>
+        @else
+        <p class="text-center text-muted mb-5">
+          Aucun témoignage publié pour le moment. Soyez le premier à partager votre expérience.
+        </p>
+        @endif
 
+        <div class="row justify-content-center">
+          <div class="col-lg-8" data-aos="fade-up">
+            <div class="temoignage-formulaire">
+
+              <div class="text-center mb-4">
+                <span class="eyebrow">Votre avis compte</span>
+                <h3>Laisser un témoignage</h3>
+                <p class="mb-0">Partagez votre expérience avec Astuscité.</p>
+              </div>
+
+              @if (session('temoignage_succes'))
+              <div class="alert alert-success" role="alert">
+                {{ session('temoignage_succes') }}
+              </div>
+              @endif
+
+              @if ($errors->any())
+              <div class="alert alert-danger" role="alert">
+                <ul class="mb-0 ps-3">
+                  @foreach ($errors->all() as $erreur)
+                  <li>{{ $erreur }}</li>
+                  @endforeach
+                </ul>
+              </div>
+              @endif
+
+              <form method="POST" action="{{ route('temoignage.store') }}">
+                @csrf
+
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="temoignage-nom" class="form-label">Nom <span class="requis">*</span></label>
+                    <input type="text" class="form-control" id="temoignage-nom" name="nom"
+                           value="{{ old('nom') }}" maxlength="120" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="temoignage-entreprise" class="form-label">Entreprise</label>
+                    <input type="text" class="form-control" id="temoignage-entreprise" name="entreprise"
+                           value="{{ old('entreprise') }}" maxlength="120">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="temoignage-service" class="form-label">Service utilisé <span class="requis">*</span></label>
+                    <select class="form-select" id="temoignage-service" name="service" required>
+                      <option value="">-- Choisir --</option>
+                      @foreach (\App\Models\Temoignage::SERVICES as $service)
+                      <option value="{{ $service }}" @selected(old('service') === $service)>{{ $service }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="temoignage-note" class="form-label">Note <span class="requis">*</span></label>
+                    <select class="form-select" id="temoignage-note" name="note" required>
+                      @foreach ([5 => 'Excellent', 4 => 'Très bien', 3 => 'Bien', 2 => 'Passable', 1 => 'Insuffisant'] as $valeur => $libelle)
+                      <option value="{{ $valeur }}" @selected((int) old('note', 5) === $valeur)>{{ $valeur }} — {{ $libelle }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="temoignage-message" class="form-label">Votre témoignage <span class="requis">*</span></label>
+                    <textarea class="form-control" id="temoignage-message" name="message" rows="4"
+                              minlength="20" maxlength="500" required>{{ old('message') }}</textarea>
+                    <small class="text-muted">Entre 20 et 500 caractères.</small>
+                  </div>
+
+                  <div class="col-12 text-center">
+                    <button type="submit" class="btn-temoignage">Envoyer mon témoignage</button>
+                    <p class="mention-moderation">
+                      Votre témoignage sera publié après validation par notre équipe.
+                    </p>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
         </div>
 
       </div>
 
-    </section><!-- /Testimonials Section -->
+    </section><!-- /Temoignages Section -->
 
     <!-- Gallery Section -->
     <section id="gallery" class="gallery section">
