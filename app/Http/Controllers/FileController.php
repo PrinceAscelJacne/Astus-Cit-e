@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\File;
 use App\Models\Project;
 use App\Models\Department;
+use App\Support\GroupeParAnciennete;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use PhpOffice\PhpWord\PhpWord;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
+    use GroupeParAnciennete;
+
     /**
      * Extensions acceptées à l'upload. Déclarées en tableau : écrites en
      * chaîne, une espace après une virgule produisait une extension « pdf »
@@ -302,28 +305,4 @@ class FileController extends Controller
         return $query->get();
     }
 
-    /**
-     * Regroupe une collection de fichiers par ancienneté de création.
-     */
-    private function grouperParDate($files)
-    {
-        return $files->groupBy(function ($file) {
-            $now = \Carbon\Carbon::now();
-            $created = \Carbon\Carbon::parse($file->created_at);
-
-            if ($created->isToday()) {
-                return 'Aujourd\'hui';
-            } elseif ($created->isYesterday()) {
-                return 'Hier';
-            } elseif ($created->diffInDays($now) <= 7) {
-                return 'Cette semaine';
-            } elseif ($created->diffInDays($now) <= 30) {
-                return 'Ce mois-ci';
-            } elseif ($created->diffInMonths($now) <= 12) {
-                return 'Cette année';
-            }
-
-            return 'Il y a plus d\'un an';
-        });
-    }
 }

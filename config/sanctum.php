@@ -77,7 +77,11 @@ return [
     'middleware' => [
         'authenticate_session' => Laravel\Sanctum\Http\Middleware\AuthenticateSession::class,
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
-        'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
+        // Sanctum 4 lit désormais « validate_csrf_token ». Sous l'ancien nom
+        // « verify_csrf_token », la clé n'était plus trouvée et Sanctum
+        // retombait sur son middleware par défaut, ignorant celui de
+        // l'application et sa liste d'exclusions.
+        'validate_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
     ],
 
 ];

@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Department;
+use App\Support\GroupeParAnciennete;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProjetController extends Controller
 {
+    use GroupeParAnciennete;
+
     /**
      * @var array<int, string>
      */
@@ -220,25 +223,4 @@ class ProjetController extends Controller
         return $query;
     }
 
-    private function grouperParDate($projects)
-    {
-        return $projects->groupBy(function ($project) {
-            $now = \Carbon\Carbon::now();
-            $created = \Carbon\Carbon::parse($project->created_at);
-
-            if ($created->isToday()) {
-                return 'Aujourd\'hui';
-            } elseif ($created->isYesterday()) {
-                return 'Hier';
-            } elseif ($created->diffInDays($now) <= 7) {
-                return 'Cette semaine';
-            } elseif ($created->diffInDays($now) <= 30) {
-                return 'Ce mois-ci';
-            } elseif ($created->diffInMonths($now) <= 12) {
-                return 'Cette année';
-            }
-
-            return 'Il y a plus d\'un an';
-        });
-    }
 }
